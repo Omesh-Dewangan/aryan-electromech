@@ -21,6 +21,7 @@ class AdminUserSeeder extends Seeder
             throw new RuntimeException('Set ADMIN_NAME, a valid ADMIN_EMAIL, and an ADMIN_PASSWORD of at least 12 characters in the server .env before running this seeder.');
         }
 
+        
         $existingUser = User::query()->where('email', $email)->first();
 
         if ($existingUser) {
