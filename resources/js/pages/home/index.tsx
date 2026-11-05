@@ -26,6 +26,8 @@ type HomeProps = { home: HomeContent; settings: SiteSettings; products: Product[
 const navItems = [
     { label: 'Home', href: '#top', id: 'top' },
     { label: 'About', href: '#about', id: 'about' },
+        { label: 'About', href: '#about', id: 'about' },
+
     { label: 'Catalogue', href: '#catalogue', id: 'catalogue' },
     { label: 'Services', href: '#services', id: 'services' },
     { label: 'Industries', href: '#industries', id: 'industries' },
