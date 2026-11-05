@@ -46,6 +46,26 @@ Open **http://127.0.0.1:8000/admin/login** and sign in with the account you crea
 - **Enquiries** lets you call the client and track each request as New, Contacted or Closed.
 - **Contact & branding** updates company/contact information, WhatsApp, map, and the header logo.
 
+## Create the first admin on a live server
+
+For production, set the admin details in the live server's `.env` only. Never put the real password in source code or commit it to Git:
+
+```dotenv
+ADMIN_NAME="Aryan Admin"
+ADMIN_EMAIL="admin@aryanelectromech.local"
+ADMIN_PASSWORD="set-the-private-password-here"
+```
+
+After deploying the code and configuring the production MySQL connection, run:
+
+```bash
+php artisan config:clear
+php artisan migrate --force
+php artisan db:seed --class=AdminUserSeeder --force
+```
+
+The seeder creates the admin account only if that email is unused. It does not reset an existing admin's password when run again. After it succeeds, remove the three `ADMIN_*` lines from the live `.env`, then rebuild the config cache with `php artisan config:cache` so the password is not retained in cached configuration.
+
 Uploaded website images are served from `public/uploads` through a dedicated upload disk. This works in XAMPP on Windows without requiring symlink permissions. Existing assets in `public/images` remain available.
 
 ## Development checks
