@@ -35,6 +35,13 @@ const navItems = [
 
 const categoryIconMap = { Sparkles, ClipboardList, Boxes, Cable, RefreshCw, Wrench, Check, Factory, Zap };
 
+const socialLinks = [
+    { label: 'Facebook', href: 'https://www.facebook.com/', mark: 'f' },
+    { label: 'X (Twitter)', href: 'https://x.com/', mark: '𝕏' },
+    { label: 'Instagram', href: 'https://www.instagram.com/', mark: '◎' },
+    { label: 'YouTube', href: 'https://www.youtube.com/', mark: '▶' },
+];
+
 export default function Home({ home, settings, products, services, industries, steps }: HomeProps) {
     const [filter, setFilter] = useState('All');
     const [productSearch, setProductSearch] = useState('');
@@ -73,6 +80,23 @@ export default function Home({ home, settings, products, services, industries, s
     function submitEnquiry(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         form.post('/enquiries', { preserveScroll: true, onSuccess: () => { setSent(true); form.reset(); } });
+    }
+
+    function downloadCatalogue() {
+        const escapeCsv = (value: string) => `"${value.replaceAll('"', '""')}"`;
+        const rows = [
+            ['Code', 'Product', 'Subtitle', 'Category', 'Description'],
+            ...products.map(({ code, name, subtitle, category, description }) => [code, name, subtitle, category, description]),
+        ];
+        const csv = `\uFEFF${rows.map((row) => row.map(escapeCsv).join(',')).join('\r\n')}`;
+        const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${settings.company_name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-catalogue.csv`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
     }
 
     return <>
@@ -233,6 +257,10 @@ export default function Home({ home, settings, products, services, industries, s
                     <div>
                         <a href="#top" aria-label="Back to home" className="inline-flex items-center"><img src={settings.logo_url ?? '/images/arya-elecromech-wordmark-dark.png'} alt={`${settings.company_name} logo`} width="250" height="72" className="h-[58px] w-[202px] object-contain object-left sm:h-[66px] sm:w-[230px]" /></a>
                         <p className="mt-4 max-w-sm text-sm leading-6 text-slate-400">{settings.company_name} · Electrical panel engineering and project support.</p>
+                        <div className="mt-5 flex flex-wrap gap-2" aria-label="Social media links">
+                            {socialLinks.map(({ label, href, mark }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${label}`} title={label} className="grid size-10 place-items-center rounded-md border border-white/10 bg-white/10 text-lg font-bold text-white transition-colors hover:border-white/30 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">{mark}</a>)}
+                            <button type="button" onClick={downloadCatalogue} aria-label="Download product catalogue as CSV" title="Download product catalogue" className="grid size-10 place-items-center rounded-md border border-white/10 bg-white/10 text-white transition-colors hover:border-white/30 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"><ArrowDown className="size-5" /></button>
+                        </div>
                     </div>
                     <nav aria-label="Footer navigation">
                         <h2 className="text-xs font-bold uppercase tracking-[.18em] text-slate-200">Explore</h2>
