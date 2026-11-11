@@ -82,3 +82,66 @@ body { background: hsl(var(--background)); color: hsl(var(--foreground)); }
 @media (prefers-reduced-motion: reduce) {
   .hero-bubble { animation: none; opacity: .32; }
 }
+
+/* User-selectable night theme for the public site. */
+.site-root[data-theme='dark'] {
+  background: #0b1220;
+  color: #e2e8f0;
+  transition: background-color 240ms ease, color 240ms ease;
+}
+.site-root[data-theme='dark'] header {
+  border-color: rgb(148 163 184 / 16%);
+  background: rgb(11 18 32 / 94%);
+}
+.site-root[data-theme='dark'] #top {
+  background-color: #101b2d;
+  color: #e2e8f0;
+}
+.site-root[data-theme='dark'] #top h1,
+.site-root[data-theme='dark'] #top [class*='text-[#10243e]'] { color: #e8eef8; }
+.site-root[data-theme='dark'] #top [class*='text-slate-600'] { color: #c0cad9; }
+.site-root[data-theme='dark'] #top [class*='border-slate-200'] { border-color: rgb(148 163 184 / 24%); }
+.site-root[data-theme='dark'] #about,
+.site-root[data-theme='dark'] #services { background-color: #0b1220; }
+.site-root[data-theme='dark'] #catalogue,
+.site-root[data-theme='dark'] #process,
+.site-root[data-theme='dark'] #contact { background-color: #101827; }
+.site-root[data-theme='dark'] [class*='bg-white'] {
+  background-color: #172235;
+}
+.site-root[data-theme='dark'] [class*='bg-slate-50'],
+.site-root[data-theme='dark'] [class*='bg-slate-100'],
+.site-root[data-theme='dark'] [class*='bg-blue-50'] {
+  background-color: #1c2a3e;
+}
+.site-root[data-theme='dark'] [class*='border-slate-'] {
+  border-color: rgb(148 163 184 / 22%);
+}
+.site-root[data-theme='dark'] [class*='text-slate-950'],
+.site-root[data-theme='dark'] [class*='text-slate-900'],
+.site-root[data-theme='dark'] [class*='text-slate-800'],
+.site-root[data-theme='dark'] [class*='text-slate-700'],
+.site-root[data-theme='dark'] [class*='text-slate-600'] {
+  color: #d6deea;
+}
+.site-root[data-theme='dark'] [class*='text-slate-500'] { color: #a6b3c5; }
+.site-root[data-theme='dark'] #top .hero-bubble { opacity: .85; }
+.site-root[data-theme='dark'] input,
+.site-root[data-theme='dark'] textarea,
+.site-root[data-theme='dark'] select {
+  border-color: rgb(148 163 184 / 28%);
+  background-color: #111c2d;
+  color: #e2e8f0;
+}
+.site-root[data-theme='dark'] input::placeholder,
+.site-root[data-theme='dark'] textarea::placeholder { color: #8392a8; }
+.site-root[data-theme='dark'] #contact h2,
+.site-root[data-theme='dark'] #contact h3,
+.site-root[data-theme='dark'] #catalogue h2,
+.site-root[data-theme='dark'] #services h2,
+.site-root[data-theme='dark'] #process h2 { color: #e8eef8; }
+.site-root[data-theme='dark'] footer { border-color: rgb(148 163 184 / 16%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .site-root[data-theme='dark'] { transition: none; }
+}

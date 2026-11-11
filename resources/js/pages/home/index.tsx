@@ -2,7 +2,7 @@ import { Head, useForm } from '@inertiajs/react';
 import {
     ArrowDown, ArrowRight, ArrowUpRight, Boxes, Cable, Check, ChevronDown,
     ClipboardList, Factory, HardHat, Mail, MapPin, Menu, MessageCircle, Phone,
-    RefreshCw, Search, SlidersHorizontal, Sparkles, Wrench, X, Zap,
+    Moon, RefreshCw, Search, SlidersHorizontal, Sparkles, Sun, Wrench, X, Zap,
 } from 'lucide-react';
 import type { FormEvent } from 'react';
 import { useEffect, useMemo, useState } from 'react';
@@ -49,6 +49,13 @@ export default function Home({ home, settings, products, services, industries, s
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeMenu, setActiveMenu] = useState('top');
     const [sent, setSent] = useState(false);
+    const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+        if (typeof window === 'undefined') return 'light';
+        const storedTheme = window.localStorage.getItem('site-theme');
+        return storedTheme === 'dark' || storedTheme === 'light'
+            ? storedTheme
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    });
     const form = useForm({ name: '', mobile: '', company: '', product_name: '', message: '' });
     const categories = useMemo(() => ['All', ...new Set(products.map((product) => product.category))], [products]);
     const whatsappUrl = `https://wa.me/${settings.whatsapp_number}?text=${encodeURIComponent(`Hello ${settings.company_name}, I need a quotation for an electric panel.`)}`;
@@ -77,6 +84,12 @@ export default function Home({ home, settings, products, services, industries, s
         return () => observer.disconnect();
     }, []);
 
+    useEffect(() => {
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        window.localStorage.setItem('site-theme', theme);
+    }, [theme]);
+
     function submitEnquiry(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         form.post('/enquiries', { preserveScroll: true, onSuccess: () => { setSent(true); form.reset(); } });
@@ -101,7 +114,7 @@ export default function Home({ home, settings, products, services, industries, s
 
     return <>
         <Head title={`${settings.company_name} | Electric Panel Manufacturer in Raipur`} />
-        <div className="min-h-screen bg-white text-slate-950 selection:bg-orange-100 selection:text-slate-950">
+        <div data-theme={theme} className="site-root min-h-screen bg-white text-slate-950 selection:bg-orange-100 selection:text-slate-950">
             <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur">
                 <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                     <a href="#top" className="flex shrink-0 items-center" aria-label={`${settings.company_name} home`}>
@@ -110,7 +123,11 @@ export default function Home({ home, settings, products, services, industries, s
                     <nav aria-label="Main navigation" className="hidden items-center gap-0.5 rounded-full border border-slate-200/80 bg-slate-50/80 p-1 xl:flex">
                         {navItems.map(({ label, href, id }) => <a key={id} href={href} aria-current={activeMenu === id ? 'location' : undefined} className={cn('rounded-full px-3 py-2 text-[13px] transition-all', activeMenu === id ? 'bg-white font-semibold text-[#174b9b] shadow-sm ring-1 ring-slate-200/70' : 'font-medium text-slate-600 hover:bg-white/80 hover:text-slate-950')}>{label}</a>)}
                     </nav>
-                    <div className="hidden xl:block"><Button asChild className="bg-[#10264b] shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#1a3767]"><a href={whatsappUrl} target="_blank" rel="noreferrer">Get a quote <ArrowUpRight className="size-4" /></a></Button></div>
+                    <div className="hidden items-center gap-2 xl:flex">
+                        <button type="button" onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} className="grid size-10 place-items-center rounded-full border border-slate-200 bg-white text-slate-700 transition-colors hover:bg-slate-100"><span className="sr-only">{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span>{theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}</button>
+                        <Button asChild className="bg-[#10264b] shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#1a3767]"><a href={whatsappUrl} target="_blank" rel="noreferrer">Get a quote <ArrowUpRight className="size-4" /></a></Button>
+                    </div>
+                    <button type="button" onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} className="ml-auto mr-2 grid size-10 place-items-center rounded-full border border-slate-200 bg-white text-slate-700 transition-colors hover:bg-slate-100 xl:hidden">{theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}</button>
                     <button type="button" aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'} aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)} className="grid size-10 place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm transition-colors hover:bg-slate-50 xl:hidden">{mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}</button>
                 </div>
                 {mobileMenuOpen && <nav aria-label="Mobile navigation" className="border-t border-slate-200 bg-white px-4 py-4 shadow-lg xl:hidden"><div className="mx-auto grid max-w-7xl grid-cols-2 gap-2 sm:grid-cols-3">{navItems.map(({ label, href, id }) => <a key={id} href={href} aria-current={activeMenu === id ? 'location' : undefined} onClick={() => setMobileMenuOpen(false)} className={cn('flex min-h-11 items-center justify-between rounded-xl border px-3 py-2.5 text-sm transition-colors', activeMenu === id ? 'border-blue-200 bg-blue-50 font-semibold text-[#174b9b]' : 'border-slate-100 font-medium text-slate-700 hover:bg-slate-50')}>{label}{activeMenu === id && <span className="size-1.5 rounded-full bg-[#174b9b]" />}</a>)}<a href={whatsappUrl} target="_blank" rel="noreferrer" className="col-span-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#10264b] px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1a3767] sm:col-span-1">Get a quote <ArrowUpRight className="size-4" /></a></div></nav>}
