@@ -140,7 +140,7 @@ export default function Home({ home, settings, products, services, industries, s
                     <div className="hero-bubbles pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
                         {Array.from({ length: 28 }, (_, index) => <span key={index} className={`hero-bubble hero-bubble-${index + 1}`} />)}
                     </div>
-                    <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 min-[1150px]:min-h-[650px] min-[1150px]:grid-cols-[.9fr_1.1fr] min-[1150px]:gap-12 lg:px-8 lg:py-20">
+                    <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-8 px-4 py-12 sm:px-6 sm:py-14 min-[1150px]:grid-cols-[.9fr_1.1fr] min-[1150px]:gap-12 lg:px-8 lg:py-16">
                         <div className="max-w-2xl">
                             <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.2em] text-slate-700 shadow-sm"><span className="size-1.5 rounded-full bg-[#f4772b]" />{home.hero_kicker}</p>
                             <h1 className="mt-6 max-w-[620px] text-[2.8rem] font-bold leading-[1.04] tracking-[-.05em] text-[#10243e] sm:text-6xl min-[1150px]:text-6xl 2xl:text-[4.25rem]">{home.hero_title}<br /><span className="text-[#e76527]">{home.hero_highlight}</span></h1>
