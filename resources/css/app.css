@@ -33,15 +33,15 @@ body { background: hsl(var(--background)); color: hsl(var(--foreground)); }
 
 .hero-bubble {
   position: absolute;
-  bottom: -8rem;
+  bottom: -4rem;
   left: var(--bubble-left);
   width: var(--bubble-size);
   aspect-ratio: 1;
-  border: 1px solid rgb(23 75 155 / 18%);
+  border: 1px solid rgb(23 75 155 / 24%);
   border-radius: 9999px;
-  background: radial-gradient(circle at 32% 28%, rgb(255 255 255 / 78%), rgb(59 130 246 / 10%) 55%, rgb(20 184 166 / 8%));
-  box-shadow: inset -8px -12px 24px rgb(23 75 155 / 5%), 0 8px 30px rgb(23 75 155 / 5%);
-  animation: hero-bubble-rise var(--bubble-duration) linear infinite;
+  background: radial-gradient(circle at 30% 24%, rgb(255 255 255 / 92%), rgb(147 197 253 / 24%) 48%, rgb(20 184 166 / 12%) 78%);
+  box-shadow: inset -8px -10px 20px rgb(23 75 155 / 7%), 0 8px 26px rgb(23 75 155 / 8%);
+  animation: hero-bubble-rise var(--bubble-duration) ease-in-out infinite;
   animation-delay: var(--bubble-delay);
 }
 .hero-bubble-1 { --bubble-left: 4%; --bubble-size: 42px; --bubble-duration: 19s; --bubble-delay: -11s; }
@@ -59,12 +59,12 @@ body { background: hsl(var(--background)); color: hsl(var(--foreground)); }
 .hero-bubble-13 { --bubble-left: 76%; --bubble-size: 36px; --bubble-duration: 18s; --bubble-delay: -14s; }
 .hero-bubble-14 { --bubble-left: 96%; --bubble-size: 70px; --bubble-duration: 27s; --bubble-delay: -20s; }
 @keyframes hero-bubble-rise {
-  0% { transform: translate3d(0, 0, 0) scale(.82); opacity: 0; }
-  12% { opacity: .62; }
-  50% { transform: translate3d(24px, -45vh, 0) scale(1); }
-  88% { opacity: .48; }
-  100% { transform: translate3d(-18px, -100vh, 0) scale(.9); opacity: 0; }
+  0% { transform: translate3d(0, 0, 0) scale(.78); opacity: 0; }
+  14% { opacity: .72; }
+  48% { transform: translate3d(18px, -45vh, 0) scale(1); opacity: .62; }
+  84% { opacity: .5; }
+  100% { transform: translate3d(-14px, -105vh, 0) scale(.92); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-bubble { animation: none; opacity: .22; }
+  .hero-bubble { animation: none; opacity: .32; }
 }

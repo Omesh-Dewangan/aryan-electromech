@@ -118,12 +118,12 @@ export default function Home({ home, settings, products, services, industries, s
 
             <main>
                 <section id="top" className="relative isolate overflow-hidden bg-[#f3f6fa] text-[#10243e]">
-                    <div className="hero-bubbles pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+                    <div className="pointer-events-none absolute inset-0 z-0 opacity-60" style={{ backgroundImage: 'linear-gradient(rgba(15,23,42,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,.04) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
+                    <div className="pointer-events-none absolute -right-48 -top-64 z-0 size-[38rem] rounded-full bg-blue-200/45 blur-3xl" />
+                    <div className="hero-bubbles pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
                         {Array.from({ length: 14 }, (_, index) => <span key={index} className={`hero-bubble hero-bubble-${index + 1}`} />)}
                     </div>
-                    <div className="pointer-events-none absolute inset-0 -z-10 opacity-70" style={{ backgroundImage: 'linear-gradient(rgba(15,23,42,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,.045) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
-                    <div className="absolute -right-48 -top-64 -z-10 size-[38rem] rounded-full bg-blue-200/50 blur-3xl" />
-                    <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 min-[1150px]:min-h-[650px] min-[1150px]:grid-cols-[.9fr_1.1fr] min-[1150px]:gap-12 lg:px-8 lg:py-20">
+                    <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 min-[1150px]:min-h-[650px] min-[1150px]:grid-cols-[.9fr_1.1fr] min-[1150px]:gap-12 lg:px-8 lg:py-20">
                         <div className="max-w-2xl">
                             <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.2em] text-slate-700 shadow-sm"><span className="size-1.5 rounded-full bg-[#f4772b]" />{home.hero_kicker}</p>
                             <h1 className="mt-6 max-w-[620px] text-[2.8rem] font-bold leading-[1.04] tracking-[-.05em] text-[#10243e] sm:text-6xl min-[1150px]:text-6xl 2xl:text-[4.25rem]">{home.hero_title}<br /><span className="text-[#e76527]">{home.hero_highlight}</span></h1>
@@ -256,30 +256,33 @@ export default function Home({ home, settings, products, services, industries, s
             </main>
 
             <footer className="border-t border-white/10 bg-[#081526] text-white">
-                <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.2fr_.8fr] lg:grid-cols-[1.3fr_.7fr_.8fr] lg:gap-14 lg:px-8 lg:py-16">
+                <div className="mx-auto grid max-w-7xl gap-8 px-4 py-9 sm:px-6 sm:py-10 md:grid-cols-[1.25fr_.7fr_1fr] md:gap-8 lg:px-8">
                     <div>
-                        <a href="#top" aria-label="Back to home" className="inline-flex items-center"><img src={settings.logo_url ?? '/images/arya-elecromech-wordmark-dark.png'} alt={`${settings.company_name} logo`} width="250" height="72" className="h-[58px] w-[202px] object-contain object-left sm:h-[66px] sm:w-[230px]" /></a>
-                        <p className="mt-4 max-w-sm text-sm leading-6 text-slate-400">{settings.company_name} manufactures LT power distribution, motor control, power factor correction and automation panels, with installation and project support.</p>
-                        <div className="mt-5 grid gap-3 text-sm text-slate-400">
-                            {settings.ceo_name && <p><span className="font-semibold text-slate-200">CEO:</span> {settings.ceo_name}</p>}
-                            {settings.gstin && <p><span className="font-semibold text-slate-200">GSTIN:</span> {settings.gstin}</p>}
-                            {settings.address && <p className="max-w-sm leading-6"><span className="font-semibold text-slate-200">Works address:</span> {settings.address}</p>}
+                        <a href="#top" aria-label="Back to home" className="inline-flex items-center"><img src={settings.logo_url ?? '/images/arya-elecromech-wordmark-dark.png'} alt={`${settings.company_name} logo`} width="250" height="72" className="h-[52px] w-[188px] object-contain object-left" /></a>
+                        <p className="mt-3 max-w-sm text-sm leading-5 text-slate-400">LT power distribution, motor control, power factor correction and automation panels, built and supported in Raipur.</p>
+                        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-slate-400">
+                            {settings.ceo_name && <p><span className="font-semibold text-slate-200">CEO</span> · {settings.ceo_name}</p>}
+                            {settings.gstin && <p><span className="font-semibold text-slate-200">GSTIN</span> · {settings.gstin}</p>}
                         </div>
-                        <div className="mt-5 flex flex-wrap gap-2" aria-label="Social media links">
-                            {socialLinks.map(({ label, href, mark }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${label}`} title={label} className="grid size-10 place-items-center rounded-md border border-white/10 bg-white/10 text-lg font-bold text-white transition-colors hover:border-white/30 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">{mark}</a>)}
-                            <button type="button" onClick={downloadCatalogue} aria-label="Download product catalogue as CSV" title="Download product catalogue" className="grid size-10 place-items-center rounded-md border border-white/10 bg-white/10 text-white transition-colors hover:border-white/30 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"><ArrowDown className="size-5" /></button>
+                        {settings.address && <p className="mt-2 max-w-sm text-xs leading-5 text-slate-400"><span className="font-semibold text-slate-200">Works</span> · {settings.address}</p>}
+                        <div className="mt-4 flex flex-wrap gap-2" aria-label="Social media links">
+                            {socialLinks.map(({ label, href, mark }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${label}`} title={label} className="grid size-9 place-items-center rounded-md border border-white/10 bg-white/[.06] text-base font-bold text-white transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">{mark}</a>)}
+                            <button type="button" onClick={downloadCatalogue} aria-label="Download product catalogue as CSV" title="Download product catalogue" className="grid size-9 place-items-center rounded-md border border-white/10 bg-white/[.06] text-white transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"><ArrowDown className="size-4" /></button>
                         </div>
                     </div>
-                    <nav aria-label="Footer navigation">
-                        <h2 className="text-xs font-bold uppercase tracking-[.18em] text-slate-200">Explore</h2>
-                        <div className="mt-4 grid gap-3 text-sm text-slate-400">
+                    <nav aria-label="Footer navigation" className="md:pt-2">
+                        <h2 className="text-[11px] font-bold uppercase tracking-[.18em] text-slate-200">Explore</h2>
+                        <div className="mt-3 grid gap-2.5 text-sm text-slate-400">
                             {[['About', '#about'], ['Catalogue', '#catalogue'], ['Services', '#services'], ['Industries', '#industries'], ['Our process', '#process']].map(([label, href]) => <a key={href} href={href} className="w-fit transition-colors hover:text-white">{label}</a>)}
                         </div>
                     </nav>
-                    <div className="rounded-2xl border border-white/10 bg-white/[.035] p-5 sm:p-6">
-                        <h2 className="text-xs font-bold uppercase tracking-[.18em] text-slate-200">Start a project</h2>
-                        <p className="mt-3 max-w-xs text-sm leading-6 text-slate-400">Have a panel requirement or an upcoming installation?</p>
-                        <a href={whatsappUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#f4772b] px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-orange-950/20 transition-all hover:-translate-y-0.5 hover:bg-[#e76527]">Talk to our team <ArrowUpRight className="size-4" /></a>
+                    <div className="rounded-xl border border-white/10 bg-white/[.035] p-4 md:mt-0.5">
+                        <h2 className="text-[11px] font-bold uppercase tracking-[.18em] text-slate-200">Start a project</h2>
+                        <p className="mt-2 text-sm leading-5 text-slate-400">Planning a panel installation or upgrade? Talk to our team.</p>
+                        <div className="mt-3 flex flex-wrap items-center gap-3">
+                            <a href={whatsappUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#f4772b] px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#e76527]">Talk to our team <ArrowUpRight className="size-4" /></a>
+                            <a href={phoneUrl} className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-300 hover:text-white"><Phone className="size-3.5" /> Call us</a>
+                        </div>
                     </div>
                 </div>
                 <div className="border-t border-white/10">
