@@ -277,11 +277,6 @@ export default function Home({ home, settings, products, services, industries, s
                     <div>
                         <a href="#top" aria-label="Back to home" className="inline-flex items-center"><img src={settings.logo_url ?? '/images/arya-elecromech-wordmark-dark.png'} alt={`${settings.company_name} logo`} width="250" height="72" className="h-[52px] w-[188px] object-contain object-left" /></a>
                         <p className="mt-3 max-w-sm text-[13px] leading-5 text-slate-400">LT power distribution, motor control, power factor correction and automation panels, built and supported in Raipur.</p>
-                        <div className="mt-4 grid max-w-sm grid-cols-2 gap-2.5">
-                            {settings.ceo_name && <div className="rounded-lg border border-white/10 bg-white/[.035] px-3 py-2"><p className="text-[9px] font-bold uppercase tracking-[.16em] text-slate-500">Chief Executive Officer</p><p className="mt-1 text-xs font-semibold text-slate-200">{settings.ceo_name}</p></div>}
-                            {settings.gstin && <div className="rounded-lg border border-white/10 bg-white/[.035] px-3 py-2"><p className="text-[9px] font-bold uppercase tracking-[.16em] text-slate-500">GSTIN</p><p className="mt-1 break-all font-mono text-[11px] font-semibold tracking-wide text-slate-200">{settings.gstin}</p></div>}
-                        </div>
-                        {settings.address && <div className="mt-2.5 flex max-w-sm gap-2 rounded-lg border border-white/10 bg-white/[.035] px-3 py-2.5"><MapPin className="mt-0.5 size-3.5 shrink-0 text-blue-300" /><p className="text-xs leading-5 text-slate-400"><span className="font-semibold text-slate-200">Works address</span><br />{settings.address}</p></div>}
                         <div className="mt-4 flex flex-wrap gap-2" aria-label="Social media links">
                             {socialLinks.map(({ label, href, mark }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${label}`} title={label} className="grid size-9 place-items-center rounded-md border border-white/10 bg-white/[.06] text-base font-bold text-white transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">{mark}</a>)}
                             <button type="button" onClick={downloadCatalogue} aria-label="Download product catalogue as CSV" title="Download product catalogue" className="grid size-9 place-items-center rounded-md border border-white/10 bg-white/[.06] text-white transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"><ArrowDown className="size-4" /></button>
@@ -292,13 +287,20 @@ export default function Home({ home, settings, products, services, industries, s
                         <div className="mt-3 grid gap-2.5 text-sm text-slate-400">
                             {[['About', '#about'], ['Catalogue', '#catalogue'], ['Services', '#services'], ['Industries', '#industries'], ['Our process', '#process']].map(([label, href]) => <a key={href} href={href} className="w-fit transition-colors hover:text-white">{label}</a>)}
                         </div>
+                        {(settings.ceo_name || settings.gstin) && <div className="mt-4 grid gap-2 border-t border-white/10 pt-3 text-xs">
+                            {settings.ceo_name && <p className="text-slate-400"><span className="font-semibold text-slate-200">CEO</span><br />{settings.ceo_name}</p>}
+                            {settings.gstin && <p className="text-slate-400"><span className="font-semibold text-slate-200">GSTIN</span><br /><span className="font-mono text-[11px] tracking-wide">{settings.gstin}</span></p>}
+                        </div>}
                     </nav>
-                    <div className="self-start rounded-xl border border-white/10 bg-white/[.035] p-4 md:mt-0.5">
-                        <h2 className="text-[11px] font-bold uppercase tracking-[.18em] text-slate-200">Start a project</h2>
-                        <p className="mt-2 text-sm leading-5 text-slate-400">Planning a panel installation or upgrade? Talk to our team.</p>
-                        <div className="mt-3 flex flex-wrap items-center gap-3">
-                            <a href={whatsappUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#f4772b] px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#e76527]">Talk to our team <ArrowUpRight className="size-4" /></a>
-                            <a href={phoneUrl} className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-300 hover:text-white"><Phone className="size-3.5" /> Call us</a>
+                    <div className="grid content-start gap-3 md:mt-0.5">
+                        {settings.address && <div className="flex gap-2.5 rounded-xl border border-white/10 bg-white/[.035] p-3.5"><MapPin className="mt-0.5 size-4 shrink-0 text-blue-300" /><p className="text-xs leading-5 text-slate-400"><span className="font-semibold text-slate-200">Works address</span><br />{settings.address}</p></div>}
+                        <div className="rounded-xl border border-white/10 bg-white/[.035] p-4">
+                            <h2 className="text-[11px] font-bold uppercase tracking-[.18em] text-slate-200">Start a project</h2>
+                            <p className="mt-2 text-sm leading-5 text-slate-400">Planning a panel installation or upgrade? Talk to our team.</p>
+                            <div className="mt-3 flex flex-wrap items-center gap-3">
+                                <a href={whatsappUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#f4772b] px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#e76527]">Talk to our team <ArrowUpRight className="size-4" /></a>
+                                <a href={phoneUrl} className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-300 hover:text-white"><Phone className="size-3.5" /> Call us</a>
+                            </div>
                         </div>
                     </div>
                 </div>
