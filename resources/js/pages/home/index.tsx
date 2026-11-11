@@ -121,7 +121,7 @@ export default function Home({ home, settings, products, services, industries, s
                     <div className="pointer-events-none absolute inset-0 z-0 opacity-60" style={{ backgroundImage: 'linear-gradient(rgba(15,23,42,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,.04) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
                     <div className="pointer-events-none absolute -right-48 -top-64 z-0 size-[38rem] rounded-full bg-blue-200/45 blur-3xl" />
                     <div className="hero-bubbles pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-                        {Array.from({ length: 14 }, (_, index) => <span key={index} className={`hero-bubble hero-bubble-${index + 1}`} />)}
+                        {Array.from({ length: 28 }, (_, index) => <span key={index} className={`hero-bubble hero-bubble-${index + 1}`} />)}
                     </div>
                     <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 min-[1150px]:min-h-[650px] min-[1150px]:grid-cols-[.9fr_1.1fr] min-[1150px]:gap-12 lg:px-8 lg:py-20">
                         <div className="max-w-2xl">
@@ -256,15 +256,15 @@ export default function Home({ home, settings, products, services, industries, s
             </main>
 
             <footer className="border-t border-white/10 bg-[#081526] text-white">
-                <div className="mx-auto grid max-w-7xl gap-8 px-4 py-9 sm:px-6 sm:py-10 md:grid-cols-[1.25fr_.7fr_1fr] md:gap-8 lg:px-8">
+                <div className="mx-auto grid max-w-7xl items-start gap-7 px-4 py-8 sm:px-6 sm:py-9 md:grid-cols-[1.2fr_.65fr_1fr] md:gap-10 lg:px-8">
                     <div>
                         <a href="#top" aria-label="Back to home" className="inline-flex items-center"><img src={settings.logo_url ?? '/images/arya-elecromech-wordmark-dark.png'} alt={`${settings.company_name} logo`} width="250" height="72" className="h-[52px] w-[188px] object-contain object-left" /></a>
-                        <p className="mt-3 max-w-sm text-sm leading-5 text-slate-400">LT power distribution, motor control, power factor correction and automation panels, built and supported in Raipur.</p>
-                        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-slate-400">
-                            {settings.ceo_name && <p><span className="font-semibold text-slate-200">CEO</span> · {settings.ceo_name}</p>}
-                            {settings.gstin && <p><span className="font-semibold text-slate-200">GSTIN</span> · {settings.gstin}</p>}
+                        <p className="mt-3 max-w-sm text-[13px] leading-5 text-slate-400">LT power distribution, motor control, power factor correction and automation panels, built and supported in Raipur.</p>
+                        <div className="mt-4 grid max-w-sm grid-cols-2 gap-2.5">
+                            {settings.ceo_name && <div className="rounded-lg border border-white/10 bg-white/[.035] px-3 py-2"><p className="text-[9px] font-bold uppercase tracking-[.16em] text-slate-500">Chief Executive Officer</p><p className="mt-1 text-xs font-semibold text-slate-200">{settings.ceo_name}</p></div>}
+                            {settings.gstin && <div className="rounded-lg border border-white/10 bg-white/[.035] px-3 py-2"><p className="text-[9px] font-bold uppercase tracking-[.16em] text-slate-500">GSTIN</p><p className="mt-1 break-all font-mono text-[11px] font-semibold tracking-wide text-slate-200">{settings.gstin}</p></div>}
                         </div>
-                        {settings.address && <p className="mt-2 max-w-sm text-xs leading-5 text-slate-400"><span className="font-semibold text-slate-200">Works</span> · {settings.address}</p>}
+                        {settings.address && <div className="mt-2.5 flex max-w-sm gap-2 rounded-lg border border-white/10 bg-white/[.035] px-3 py-2.5"><MapPin className="mt-0.5 size-3.5 shrink-0 text-blue-300" /><p className="text-xs leading-5 text-slate-400"><span className="font-semibold text-slate-200">Works address</span><br />{settings.address}</p></div>}
                         <div className="mt-4 flex flex-wrap gap-2" aria-label="Social media links">
                             {socialLinks.map(({ label, href, mark }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${label}`} title={label} className="grid size-9 place-items-center rounded-md border border-white/10 bg-white/[.06] text-base font-bold text-white transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">{mark}</a>)}
                             <button type="button" onClick={downloadCatalogue} aria-label="Download product catalogue as CSV" title="Download product catalogue" className="grid size-9 place-items-center rounded-md border border-white/10 bg-white/[.06] text-white transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"><ArrowDown className="size-4" /></button>
@@ -276,7 +276,7 @@ export default function Home({ home, settings, products, services, industries, s
                             {[['About', '#about'], ['Catalogue', '#catalogue'], ['Services', '#services'], ['Industries', '#industries'], ['Our process', '#process']].map(([label, href]) => <a key={href} href={href} className="w-fit transition-colors hover:text-white">{label}</a>)}
                         </div>
                     </nav>
-                    <div className="rounded-xl border border-white/10 bg-white/[.035] p-4 md:mt-0.5">
+                    <div className="self-start rounded-xl border border-white/10 bg-white/[.035] p-4 md:mt-0.5">
                         <h2 className="text-[11px] font-bold uppercase tracking-[.18em] text-slate-200">Start a project</h2>
                         <p className="mt-2 text-sm leading-5 text-slate-400">Planning a panel installation or upgrade? Talk to our team.</p>
                         <div className="mt-3 flex flex-wrap items-center gap-3">

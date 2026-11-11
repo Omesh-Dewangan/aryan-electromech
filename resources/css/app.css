@@ -44,26 +44,40 @@ body { background: hsl(var(--background)); color: hsl(var(--foreground)); }
   animation: hero-bubble-rise var(--bubble-duration) ease-in-out infinite;
   animation-delay: var(--bubble-delay);
 }
-.hero-bubble-1 { --bubble-left: 4%; --bubble-size: 42px; --bubble-duration: 19s; --bubble-delay: -11s; }
-.hero-bubble-2 { --bubble-left: 12%; --bubble-size: 76px; --bubble-duration: 25s; --bubble-delay: -18s; }
-.hero-bubble-3 { --bubble-left: 22%; --bubble-size: 28px; --bubble-duration: 17s; --bubble-delay: -5s; }
-.hero-bubble-4 { --bubble-left: 31%; --bubble-size: 58px; --bubble-duration: 23s; --bubble-delay: -15s; }
-.hero-bubble-5 { --bubble-left: 42%; --bubble-size: 34px; --bubble-duration: 20s; --bubble-delay: -9s; }
-.hero-bubble-6 { --bubble-left: 51%; --bubble-size: 88px; --bubble-duration: 28s; --bubble-delay: -21s; }
-.hero-bubble-7 { --bubble-left: 62%; --bubble-size: 40px; --bubble-duration: 18s; --bubble-delay: -8s; }
-.hero-bubble-8 { --bubble-left: 71%; --bubble-size: 64px; --bubble-duration: 24s; --bubble-delay: -16s; }
-.hero-bubble-9 { --bubble-left: 82%; --bubble-size: 30px; --bubble-duration: 19s; --bubble-delay: -3s; }
-.hero-bubble-10 { --bubble-left: 91%; --bubble-size: 52px; --bubble-duration: 22s; --bubble-delay: -12s; }
-.hero-bubble-11 { --bubble-left: 16%; --bubble-size: 24px; --bubble-duration: 16s; --bubble-delay: -13s; }
-.hero-bubble-12 { --bubble-left: 37%; --bubble-size: 44px; --bubble-duration: 21s; --bubble-delay: -6s; }
-.hero-bubble-13 { --bubble-left: 76%; --bubble-size: 36px; --bubble-duration: 18s; --bubble-delay: -14s; }
-.hero-bubble-14 { --bubble-left: 96%; --bubble-size: 70px; --bubble-duration: 27s; --bubble-delay: -20s; }
+.hero-bubble-1 { --bubble-left: 3%; --bubble-size: 15px; --bubble-duration: 31s; --bubble-delay: -11s; }
+.hero-bubble-2 { --bubble-left: 7%; --bubble-size: 22px; --bubble-duration: 36s; --bubble-delay: -18s; }
+.hero-bubble-3 { --bubble-left: 12%; --bubble-size: 12px; --bubble-duration: 29s; --bubble-delay: -5s; }
+.hero-bubble-4 { --bubble-left: 16%; --bubble-size: 18px; --bubble-duration: 34s; --bubble-delay: -15s; }
+.hero-bubble-5 { --bubble-left: 21%; --bubble-size: 13px; --bubble-duration: 32s; --bubble-delay: -9s; }
+.hero-bubble-6 { --bubble-left: 25%; --bubble-size: 24px; --bubble-duration: 39s; --bubble-delay: -21s; }
+.hero-bubble-7 { --bubble-left: 30%; --bubble-size: 14px; --bubble-duration: 30s; --bubble-delay: -8s; }
+.hero-bubble-8 { --bubble-left: 34%; --bubble-size: 19px; --bubble-duration: 37s; --bubble-delay: -16s; }
+.hero-bubble-9 { --bubble-left: 39%; --bubble-size: 11px; --bubble-duration: 31s; --bubble-delay: -3s; }
+.hero-bubble-10 { --bubble-left: 43%; --bubble-size: 16px; --bubble-duration: 35s; --bubble-delay: -12s; }
+.hero-bubble-11 { --bubble-left: 48%; --bubble-size: 12px; --bubble-duration: 29s; --bubble-delay: -13s; }
+.hero-bubble-12 { --bubble-left: 52%; --bubble-size: 21px; --bubble-duration: 38s; --bubble-delay: -6s; }
+.hero-bubble-13 { --bubble-left: 57%; --bubble-size: 14px; --bubble-duration: 32s; --bubble-delay: -14s; }
+.hero-bubble-14 { --bubble-left: 61%; --bubble-size: 18px; --bubble-duration: 36s; --bubble-delay: -20s; }
+.hero-bubble-15 { --bubble-left: 66%; --bubble-size: 11px; --bubble-duration: 30s; --bubble-delay: -7s; }
+.hero-bubble-16 { --bubble-left: 70%; --bubble-size: 23px; --bubble-duration: 39s; --bubble-delay: -24s; }
+.hero-bubble-17 { --bubble-left: 75%; --bubble-size: 13px; --bubble-duration: 31s; --bubble-delay: -17s; }
+.hero-bubble-18 { --bubble-left: 79%; --bubble-size: 17px; --bubble-duration: 35s; --bubble-delay: -4s; }
+.hero-bubble-19 { --bubble-left: 84%; --bubble-size: 12px; --bubble-duration: 29s; --bubble-delay: -22s; }
+.hero-bubble-20 { --bubble-left: 88%; --bubble-size: 20px; --bubble-duration: 38s; --bubble-delay: -10s; }
+.hero-bubble-21 { --bubble-left: 93%; --bubble-size: 14px; --bubble-duration: 32s; --bubble-delay: -19s; }
+.hero-bubble-22 { --bubble-left: 97%; --bubble-size: 18px; --bubble-duration: 36s; --bubble-delay: -2s; }
+.hero-bubble-23 { --bubble-left: 5%; --bubble-size: 10px; --bubble-duration: 30s; --bubble-delay: -26s; }
+.hero-bubble-24 { --bubble-left: 19%; --bubble-size: 12px; --bubble-duration: 34s; --bubble-delay: -23s; }
+.hero-bubble-25 { --bubble-left: 36%; --bubble-size: 10px; --bubble-duration: 31s; --bubble-delay: -25s; }
+.hero-bubble-26 { --bubble-left: 55%; --bubble-size: 12px; --bubble-duration: 37s; --bubble-delay: -28s; }
+.hero-bubble-27 { --bubble-left: 73%; --bubble-size: 10px; --bubble-duration: 33s; --bubble-delay: -27s; }
+.hero-bubble-28 { --bubble-left: 90%; --bubble-size: 12px; --bubble-duration: 35s; --bubble-delay: -30s; }
 @keyframes hero-bubble-rise {
-  0% { transform: translate3d(0, 0, 0) scale(.78); opacity: 0; }
+  0% { transform: translate3d(0, 0, 0) scale(.82); opacity: 0; }
   14% { opacity: .72; }
-  48% { transform: translate3d(18px, -45vh, 0) scale(1); opacity: .62; }
-  84% { opacity: .5; }
-  100% { transform: translate3d(-14px, -105vh, 0) scale(.92); opacity: 0; }
+  48% { transform: translate3d(14px, -45vh, 0) scale(1); opacity: .64; }
+  84% { opacity: .52; }
+  100% { transform: translate3d(-12px, -105vh, 0) scale(.94); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-bubble { animation: none; opacity: .32; }
