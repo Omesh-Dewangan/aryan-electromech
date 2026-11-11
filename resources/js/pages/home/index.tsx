@@ -138,7 +138,7 @@ export default function Home({ home, settings, products, services, industries, s
                     <div className="pointer-events-none absolute inset-0 z-0 opacity-60" style={{ backgroundImage: 'linear-gradient(rgba(15,23,42,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,.04) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
                     <div className="pointer-events-none absolute -right-48 -top-64 z-0 size-[38rem] rounded-full bg-blue-200/45 blur-3xl" />
                     <div className="hero-bubbles pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-                        {Array.from({ length: 28 }, (_, index) => <span key={index} className={`hero-bubble hero-bubble-${index + 1}`} />)}
+                        {Array.from({ length: 48 }, (_, index) => <span key={index} className={`hero-bubble hero-bubble-${index + 1}`} />)}
                     </div>
                     <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-8 px-4 py-12 sm:px-6 sm:py-14 min-[1150px]:grid-cols-[.9fr_1.1fr] min-[1150px]:gap-12 lg:px-8 lg:py-16">
                         <div className="max-w-2xl">
