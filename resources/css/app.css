@@ -30,3 +30,41 @@
 
 * { border-color: hsl(var(--border)); }
 body { background: hsl(var(--background)); color: hsl(var(--foreground)); }
+
+.hero-bubble {
+  position: absolute;
+  bottom: -8rem;
+  left: var(--bubble-left);
+  width: var(--bubble-size);
+  aspect-ratio: 1;
+  border: 1px solid rgb(23 75 155 / 18%);
+  border-radius: 9999px;
+  background: radial-gradient(circle at 32% 28%, rgb(255 255 255 / 78%), rgb(59 130 246 / 10%) 55%, rgb(20 184 166 / 8%));
+  box-shadow: inset -8px -12px 24px rgb(23 75 155 / 5%), 0 8px 30px rgb(23 75 155 / 5%);
+  animation: hero-bubble-rise var(--bubble-duration) linear infinite;
+  animation-delay: var(--bubble-delay);
+}
+.hero-bubble-1 { --bubble-left: 4%; --bubble-size: 42px; --bubble-duration: 19s; --bubble-delay: -11s; }
+.hero-bubble-2 { --bubble-left: 12%; --bubble-size: 76px; --bubble-duration: 25s; --bubble-delay: -18s; }
+.hero-bubble-3 { --bubble-left: 22%; --bubble-size: 28px; --bubble-duration: 17s; --bubble-delay: -5s; }
+.hero-bubble-4 { --bubble-left: 31%; --bubble-size: 58px; --bubble-duration: 23s; --bubble-delay: -15s; }
+.hero-bubble-5 { --bubble-left: 42%; --bubble-size: 34px; --bubble-duration: 20s; --bubble-delay: -9s; }
+.hero-bubble-6 { --bubble-left: 51%; --bubble-size: 88px; --bubble-duration: 28s; --bubble-delay: -21s; }
+.hero-bubble-7 { --bubble-left: 62%; --bubble-size: 40px; --bubble-duration: 18s; --bubble-delay: -8s; }
+.hero-bubble-8 { --bubble-left: 71%; --bubble-size: 64px; --bubble-duration: 24s; --bubble-delay: -16s; }
+.hero-bubble-9 { --bubble-left: 82%; --bubble-size: 30px; --bubble-duration: 19s; --bubble-delay: -3s; }
+.hero-bubble-10 { --bubble-left: 91%; --bubble-size: 52px; --bubble-duration: 22s; --bubble-delay: -12s; }
+.hero-bubble-11 { --bubble-left: 16%; --bubble-size: 24px; --bubble-duration: 16s; --bubble-delay: -13s; }
+.hero-bubble-12 { --bubble-left: 37%; --bubble-size: 44px; --bubble-duration: 21s; --bubble-delay: -6s; }
+.hero-bubble-13 { --bubble-left: 76%; --bubble-size: 36px; --bubble-duration: 18s; --bubble-delay: -14s; }
+.hero-bubble-14 { --bubble-left: 96%; --bubble-size: 70px; --bubble-duration: 27s; --bubble-delay: -20s; }
+@keyframes hero-bubble-rise {
+  0% { transform: translate3d(0, 0, 0) scale(.82); opacity: 0; }
+  12% { opacity: .62; }
+  50% { transform: translate3d(24px, -45vh, 0) scale(1); }
+  88% { opacity: .48; }
+  100% { transform: translate3d(-18px, -100vh, 0) scale(.9); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bubble { animation: none; opacity: .22; }
+}

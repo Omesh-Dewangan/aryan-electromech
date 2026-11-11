@@ -118,6 +118,9 @@ export default function Home({ home, settings, products, services, industries, s
 
             <main>
                 <section id="top" className="relative isolate overflow-hidden bg-[#f3f6fa] text-[#10243e]">
+                    <div className="hero-bubbles pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+                        {Array.from({ length: 14 }, (_, index) => <span key={index} className={`hero-bubble hero-bubble-${index + 1}`} />)}
+                    </div>
                     <div className="pointer-events-none absolute inset-0 -z-10 opacity-70" style={{ backgroundImage: 'linear-gradient(rgba(15,23,42,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,.045) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
                     <div className="absolute -right-48 -top-64 -z-10 size-[38rem] rounded-full bg-blue-200/50 blur-3xl" />
                     <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 min-[1150px]:min-h-[650px] min-[1150px]:grid-cols-[.9fr_1.1fr] min-[1150px]:gap-12 lg:px-8 lg:py-20">
@@ -256,7 +259,12 @@ export default function Home({ home, settings, products, services, industries, s
                 <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.2fr_.8fr] lg:grid-cols-[1.3fr_.7fr_.8fr] lg:gap-14 lg:px-8 lg:py-16">
                     <div>
                         <a href="#top" aria-label="Back to home" className="inline-flex items-center"><img src={settings.logo_url ?? '/images/arya-elecromech-wordmark-dark.png'} alt={`${settings.company_name} logo`} width="250" height="72" className="h-[58px] w-[202px] object-contain object-left sm:h-[66px] sm:w-[230px]" /></a>
-                        <p className="mt-4 max-w-sm text-sm leading-6 text-slate-400">{settings.company_name} · Electrical panel engineering and project support.</p>
+                        <p className="mt-4 max-w-sm text-sm leading-6 text-slate-400">{settings.company_name} manufactures LT power distribution, motor control, power factor correction and automation panels, with installation and project support.</p>
+                        <div className="mt-5 grid gap-3 text-sm text-slate-400">
+                            {settings.ceo_name && <p><span className="font-semibold text-slate-200">CEO:</span> {settings.ceo_name}</p>}
+                            {settings.gstin && <p><span className="font-semibold text-slate-200">GSTIN:</span> {settings.gstin}</p>}
+                            {settings.address && <p className="max-w-sm leading-6"><span className="font-semibold text-slate-200">Works address:</span> {settings.address}</p>}
+                        </div>
                         <div className="mt-5 flex flex-wrap gap-2" aria-label="Social media links">
                             {socialLinks.map(({ label, href, mark }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${label}`} title={label} className="grid size-10 place-items-center rounded-md border border-white/10 bg-white/10 text-lg font-bold text-white transition-colors hover:border-white/30 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">{mark}</a>)}
                             <button type="button" onClick={downloadCatalogue} aria-label="Download product catalogue as CSV" title="Download product catalogue" className="grid size-10 place-items-center rounded-md border border-white/10 bg-white/10 text-white transition-colors hover:border-white/30 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"><ArrowDown className="size-5" /></button>
