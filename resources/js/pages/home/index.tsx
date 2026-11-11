@@ -166,7 +166,7 @@ export default function Home({ home, settings, products, services, industries, s
                     </div>
                 </section>
 
-                <section id="about" className="scroll-mt-24 py-20 sm:py-24">
+                <section id="about" className="scroll-mt-24 py-14 sm:py-16">
                     <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[.95fr_1.05fr] lg:items-center lg:px-8">
                         <div className="relative">
                             {home.about_image_url && <img src={home.about_image_url} alt={`${settings.company_name} manufacturing works`} className="aspect-[4/3] w-full rounded-2xl object-cover shadow-lg" />}
@@ -185,7 +185,7 @@ export default function Home({ home, settings, products, services, industries, s
                     </div>
                 </section>
 
-                <section id="catalogue" className="scroll-mt-20 bg-[#f5f7fa] py-20 sm:py-24">
+                <section id="catalogue" className="scroll-mt-20 bg-[#f5f7fa] py-14 sm:py-16">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
                             <div><Eyebrow>Product catalogue</Eyebrow><h2 className="mt-3 text-3xl font-bold tracking-[-.035em] text-[#132747] sm:text-4xl">{home.catalogue_heading}</h2><p className="mt-3 max-w-2xl leading-7 text-slate-600">{home.catalogue_intro}</p></div>
@@ -200,21 +200,21 @@ export default function Home({ home, settings, products, services, industries, s
                     </div>
                 </section>
 
-                <section id="services" className="scroll-mt-20 py-20 sm:py-24">
+                <section id="services" className="scroll-mt-20 py-14 sm:py-16">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <Eyebrow>Services</Eyebrow><h2 className="mt-3 text-3xl font-bold tracking-[-.035em] text-[#132747] sm:text-4xl">{home.services_heading}</h2><p className="mt-3 max-w-2xl leading-7 text-slate-600">{home.services_intro}</p>
                         <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{services.map(({ id, icon_name, title, detail }, index) => { const Icon = categoryIconMap[icon_name as keyof typeof categoryIconMap] ?? Wrench; return <article key={id} className="group rounded-xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-slate-900/5"><div className="flex items-start justify-between"><span className="grid size-11 place-items-center rounded-xl bg-blue-50 text-[#174b9b] transition-colors group-hover:bg-[#10264b] group-hover:text-white"><Icon className="size-5" /></span><span className="font-mono text-xs text-slate-400">{String(index + 1).padStart(2, '0')}</span></div><h3 className="mt-5 font-semibold text-slate-900">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{detail}</p></article>; })}</div>
                     </div>
                 </section>
 
-                <section id="industries" className="scroll-mt-20 bg-[#101d35] py-20 text-white sm:py-24">
+                <section id="industries" className="scroll-mt-20 bg-[#101d35] py-14 text-white sm:py-16">
                     <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[.85fr_1.15fr] lg:items-center lg:px-8">
                         <div><Eyebrow dark>Industries</Eyebrow><h2 className="mt-3 text-3xl font-bold leading-tight tracking-[-.035em] sm:text-4xl">{home.industries_heading}</h2><p className="mt-4 max-w-xl leading-7 text-slate-300">{home.industries_intro}</p></div>
                         <div className="flex flex-wrap gap-2.5">{industries.map((industry) => <span key={industry} className="rounded-lg border border-white/15 bg-white/[.04] px-4 py-3 text-sm font-medium text-slate-100 transition-colors hover:border-orange-400/70 hover:bg-white/[.08]"><span className="mr-2 text-[#f2792c]">/</span>{industry}</span>)}</div>
                     </div>
                 </section>
 
-                <section id="process" className="scroll-mt-24 bg-[#f4f7fb] py-20 sm:py-24">
+                <section id="process" className="scroll-mt-24 bg-[#f4f7fb] py-14 sm:py-16">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
                             <div><Eyebrow>Project delivery</Eyebrow><h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-[-.04em] text-[#132747] sm:text-4xl">{home.process_heading}</h2></div>
@@ -224,7 +224,7 @@ export default function Home({ home, settings, products, services, industries, s
                     </div>
                 </section>
 
-                <section id="contact" className="scroll-mt-20 bg-[#f4f7fb] py-20 sm:py-24">
+                <section id="contact" className="scroll-mt-20 bg-[#f4f7fb] py-14 sm:py-16">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="mb-9 flex flex-col justify-between gap-5 md:flex-row md:items-end">
                             <div><Eyebrow>Contact</Eyebrow><h2 className="mt-3 max-w-2xl text-3xl font-bold tracking-[-.04em] text-[#132747] sm:text-4xl">{home.contact_heading}</h2></div>
