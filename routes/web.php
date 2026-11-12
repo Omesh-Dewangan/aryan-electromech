@@ -21,6 +21,7 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
 
     Route::middleware('admin')->group(function (): void {
         Route::post('/logout', [AdminAuthController::class, 'destroy'])->name('logout');
+        Route::post('/presence', [AdminAuthController::class, 'heartbeat'])->name('presence');
         Route::get('/', DashboardController::class)->name('dashboard');
         Route::get('/homepage', [HomepageController::class, 'edit'])->name('homepage.edit');
         Route::put('/homepage', [HomepageController::class, 'update'])->name('homepage.update');

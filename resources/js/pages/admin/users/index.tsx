@@ -1,11 +1,11 @@
-import { Head, router, useForm } from '@inertiajs/react';
-import { Activity, KeyRound, Mail, ShieldCheck, Trash2, UserPlus, Users } from 'lucide-react';
+import { Head, router, useForm, usePoll } from '@inertiajs/react';
+import { Activity, KeyRound, Mail, ShieldCheck, Trash2, UserPlus, Users, Wifi } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { AdminField, AdminPageHeader, TextInput } from '@/components/admin/field';
 import { AdminLayout } from '@/layouts/admin-layout';
 
-type AdminUser = { id: number; name: string; email: string; login_id: string; login_count: number; last_login_at: string | null; created_at: string };
+type AdminUser = { id: number; name: string; email: string; login_id: string; login_count: number; today_login_count: number; is_online: boolean; last_login_at: string | null; created_at: string };
 type Props = { users: AdminUser[]; currentUserId: number };
 type FormData = { name: string; email: string; password: string; password_confirmation: string };
 
@@ -13,6 +13,7 @@ const blank: FormData = { name: '', email: '', password: '', password_confirmati
 
 export default function AdminUsersPage({ users, currentUserId }: Props) {
     const form = useForm<FormData>(blank);
+    usePoll(30_000, { only: ['users'] });
 
     function submit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -57,7 +58,10 @@ export default function AdminUsersPage({ users, currentUserId }: Props) {
                         return <article key={user.id} className="flex items-center gap-3 px-5 py-4 sm:px-6">
                             <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[#10264b] text-sm font-bold text-white">{user.name.slice(0, 1).toUpperCase()}</span>
                             <div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><h3 className="truncate text-sm font-semibold text-slate-900">{user.name}</h3>{isCurrentUser && <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-700">You</span>}</div><p className="mt-1 flex items-center gap-1.5 truncate text-xs text-slate-500"><Mail className="size-3.5 shrink-0" />{user.email}</p><p className="mt-1 text-xs font-semibold tracking-wide text-[#174b9b]">Login ID: {user.login_id}</p><div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-slate-500"><span className="inline-flex items-center gap-1"><Activity className="size-3.5" />{user.login_count} {user.login_count === 1 ? 'login' : 'logins'}</span><span>{user.last_login_at ? `Last login ${new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(user.last_login_at))}` : 'Never logged in'}</span></div><p className="mt-1 text-[11px] text-slate-400">Added {new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' }).format(new Date(user.created_at))}</p></div>
-                            <span className="hidden items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-700 sm:inline-flex"><ShieldCheck className="size-3.5" />Admin</span>
+                            <div className="flex shrink-0 flex-col items-end gap-1.5">
+                                <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold ${user.is_online ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}><Wifi className="size-3.5" />{user.is_online ? 'Online' : 'Offline'}</span>
+                                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-500"><Activity className="size-3.5" />Today: {user.today_login_count}</span>
+                            </div>
                             {!isCurrentUser && <Button type="button" variant="ghost" size="icon" aria-label={`Remove ${user.name}`} title="Remove admin access" onClick={() => remove(user)} className="shrink-0 text-slate-400 hover:bg-rose-50 hover:text-rose-600"><Trash2 className="size-4" /></Button>}
                         </article>;
                     })}

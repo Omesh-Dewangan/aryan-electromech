@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
@@ -56,12 +57,35 @@ class AuthController extends Controller
             'last_login_at' => now(),
             'updated_at' => now(),
         ]);
+        DB::table('admin_login_sessions')->insert([
+            'user_id' => $request->user()->getKey(),
+            'session_id' => $request->session()->getId(),
+            'logged_in_at' => now(),
+            'last_seen_at' => now(),
+        ]);
 
         return redirect()->intended(route('admin.dashboard'));
     }
 
+    public function heartbeat(Request $request): \Illuminate\Http\Response
+    {
+        DB::table('admin_login_sessions')
+            ->where('user_id', $request->user()->getKey())
+            ->where('session_id', $request->session()->getId())
+            ->whereNull('logged_out_at')
+            ->update(['last_seen_at' => now()]);
+
+        return response()->noContent();
+    }
+
     public function destroy(Request $request): RedirectResponse
     {
+        DB::table('admin_login_sessions')
+            ->where('user_id', $request->user()?->getKey())
+            ->where('session_id', $request->session()->getId())
+            ->whereNull('logged_out_at')
+            ->update(['logged_out_at' => now(), 'last_seen_at' => now()]);
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

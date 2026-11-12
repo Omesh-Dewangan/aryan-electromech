@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Boxes, Building2, ClipboardList, FileText, Gauge, Globe2, Layers3, LogOut, Menu, Settings2, Users, X, Zap } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 type AdminUser = { id: number; name: string; email: string };
@@ -24,6 +24,26 @@ export function AdminLayout({ children, title }: { children: ReactNode; title: s
     const { auth, flash } = page.props;
     const [mobileOpen, setMobileOpen] = useState(false);
     const activePath = page.url.split('?')[0];
+
+    useEffect(() => {
+        const csrfToken = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? '';
+        const heartbeat = () => {
+            void fetch('/admin/presence', {
+                method: 'POST',
+                credentials: 'same-origin',
+                keepalive: true,
+                headers: {
+                    Accept: 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+            }).catch(() => undefined);
+        };
+
+        heartbeat();
+        const timer = window.setInterval(heartbeat, 30_000);
+        return () => window.clearInterval(timer);
+    }, []);
 
     return <>
         <Head title={`${title} · Admin`} />
