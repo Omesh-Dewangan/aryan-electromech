@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index(Request $request): Response
     {
         return Inertia::render('admin/users/index', [
-            'users' => User::query()->where('is_admin', true)->orderBy('name')->get(['id', 'name', 'email', 'created_at']),
+            'users' => User::query()->where('is_admin', true)->orderBy('name')->get(['id', 'name', 'email', 'login_id', 'login_count', 'last_login_at', 'created_at']),
             'currentUserId' => (int) $request->user()->getKey(),
         ]);
     }
@@ -42,7 +42,7 @@ class UserController extends Controller
             'is_admin' => true,
         ]);
 
-        return back()->with('success', 'Admin user created. They can now sign in with that email and password.');
+        return back()->with('success', 'Admin user created. Their generated Login ID is now available in the admin user list.');
     }
 
     public function destroy(Request $request, User $user): RedirectResponse

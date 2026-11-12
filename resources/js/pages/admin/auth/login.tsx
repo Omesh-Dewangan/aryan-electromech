@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { AdminField, TextInput, adminInput } from '@/components/admin/field';
 
 export default function AdminLogin() {
-    const form = useForm({ email: '', password: '', remember: true });
+    const form = useForm({ login_id: '', password: '', remember: true });
     const [showPassword, setShowPassword] = useState(false);
 
     function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -32,7 +32,7 @@ export default function AdminLogin() {
                     <h2 className="mt-6 text-3xl font-bold tracking-tight text-slate-950">Welcome back</h2>
                     <p className="mt-2 text-sm leading-6 text-slate-600">Sign in to manage the website content.</p>
                     <form onSubmit={submit} className="mt-8 space-y-5">
-                        <AdminField label="Email address" error={form.errors.email}><TextInput type="email" autoComplete="username" value={form.data.email} onChange={(event) => form.setData('email', event.target.value)} placeholder="you@company.com" required /></AdminField>
+                        <AdminField label="Login ID or email" error={form.errors.login_id}><TextInput autoComplete="username" value={form.data.login_id} onChange={(event) => form.setData('login_id', event.target.value)} placeholder="AE-000001 or you@company.com" required /></AdminField>
                         <AdminField label="Password" error={form.errors.password}><div className="relative"><input type={showPassword ? 'text' : 'password'} autoComplete="current-password" value={form.data.password} onChange={(event) => form.setData('password', event.target.value)} className={`${adminInput} pr-11`} placeholder="Enter your password" required /><button type="button" onClick={() => setShowPassword((visible) => !visible)} aria-label={showPassword ? 'Hide password' : 'Show password'} aria-pressed={showPassword} className="absolute inset-y-0 right-0 inline-flex w-11 items-center justify-center rounded-r-lg text-slate-500 transition-colors hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#174b9b]"><span className="sr-only">{showPassword ? 'Hide password' : 'Show password'}</span>{showPassword ? <EyeOff className="size-4" aria-hidden="true" /> : <Eye className="size-4" aria-hidden="true" />}</button></div></AdminField>
                         <label className="flex items-center gap-2.5 text-sm text-slate-600"><input type="checkbox" checked={form.data.remember} onChange={(event) => form.setData('remember', event.target.checked)} className="size-4 rounded border-slate-300 accent-[#174b9b]" />Keep me signed in</label>
                         <Button type="submit" disabled={form.processing} className="h-12 w-full bg-[#10264b] hover:bg-[#1a3767]">{form.processing ? 'Signing in…' : 'Sign in'} <ArrowRight className="size-4" /></Button>
