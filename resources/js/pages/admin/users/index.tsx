@@ -16,7 +16,7 @@ export default function AdminUsersPage({ users, currentUserId }: Props) {
     usePoll(30_000, { only: ['users'] });
     function updateField<K extends keyof FormData>(key: K, value: FormData[K]) {
         form.clearErrors(key);
-        form.setData(key, value);
+        form.setData(key, value as never);
     }
 
     function submit(event: React.FormEvent<HTMLFormElement>) {

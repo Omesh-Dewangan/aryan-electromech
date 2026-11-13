@@ -8,7 +8,7 @@ export default function AdminLogin() {
     const form = useForm({ login_id: '', password: '', remember: true });
     function updateField<K extends keyof typeof form.data>(key: K, value: typeof form.data[K]) {
         form.clearErrors(key);
-        form.setData(key, value);
+        form.setData(key, value as never);
     }
     const [showPassword, setShowPassword] = useState(false);
 

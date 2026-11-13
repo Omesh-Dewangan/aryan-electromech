@@ -28,7 +28,8 @@ export default function HomepageEditor({ content, images }: Props) {
 
     function submit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        form.transform((data) => ({ ...data, _method: 'put' })).post('/admin/homepage', { forceFormData: true, preserveScroll: true });
+        form.transform((data) => ({ ...data, _method: 'put' }));
+        form.post('/admin/homepage', { forceFormData: true, preserveScroll: true });
     }
 
     return <AdminLayout title="Homepage content">

@@ -13,12 +13,13 @@ export default function SettingsEditor({ settings, logoUrl }: Props) {
     const form = useForm<FormData>({ ...settings, gstin: settings.gstin ?? '', map_embed_url: settings.map_embed_url ?? '', logo: null });
     function updateField<K extends keyof FormData>(key: K, value: FormData[K]) {
         form.clearErrors(key);
-        form.setData(key, value);
+        form.setData(key, value as never);
     }
 
     function submit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        form.transform((data) => ({ ...data, _method: 'put' })).post('/admin/settings', { forceFormData: true, preserveScroll: true });
+        form.transform((data) => ({ ...data, _method: 'put' }));
+        form.post('/admin/settings', { forceFormData: true, preserveScroll: true });
     }
 
     return <AdminLayout title="Contact & branding">

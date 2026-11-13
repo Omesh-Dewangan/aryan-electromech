@@ -19,7 +19,7 @@ export default function ProductsAdmin({ products, categories }: Props) {
     const form = useForm<FormData>(blank);
     function updateField<K extends keyof FormData>(key: K, value: FormData[K]) {
         form.clearErrors(key);
-        form.setData(key, value);
+        form.setData(key, value as never);
     }
     const filtered = useMemo(() => products.filter((product) => `${product.name} ${product.code} ${product.category}`.toLowerCase().includes(search.toLowerCase())), [products, search]);
 
@@ -34,7 +34,10 @@ export default function ProductsAdmin({ products, categories }: Props) {
     function submit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const options = { forceFormData: true, preserveScroll: true, onSuccess: () => setOpen(false) };
-        if (editing) form.transform((data) => ({ ...data, _method: 'put' })).post(`/admin/products/${editing.id}`, options);
+        if (editing) {
+            form.transform((data) => ({ ...data, _method: 'put' }));
+            form.post(`/admin/products/${editing.id}`, options);
+        }
         else form.post('/admin/products', options);
     }
 

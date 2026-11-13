@@ -28,7 +28,7 @@ export default function CollectionAdmin({ resource, items }: Props) {
     const form = useForm<FormData>(initial);
     function updateField<K extends keyof FormData>(key: K, value: FormData[K]) {
         form.clearErrors(key);
-        form.setData(key, value);
+        form.setData(key, value as never);
     }
     const filtered = useMemo(() => items.filter((item) => `${item.name ?? ''} ${item.title ?? ''} ${item.detail ?? ''}`.toLowerCase().includes(search.toLowerCase())), [items, search]);
 
