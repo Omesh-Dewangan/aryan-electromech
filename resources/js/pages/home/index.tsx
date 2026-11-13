@@ -117,7 +117,7 @@ export default function Home({ home, settings, products, services, industries, s
         <div data-theme={theme} className="site-root min-h-screen bg-white text-slate-950 selection:bg-orange-100 selection:text-slate-950">
             <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur">
                 <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                    <a href="#top" className="flex shrink-0 items-center" aria-label={`${settings.company_name} home`}>
+                    <a href="#top" className="flex shrink-0 items-center transition-transform hover:scale-[1.03]" aria-label={`${settings.company_name} home`}>
                         <img src={settings.logo_url ?? '/images/arya-elecromech-wordmark.png'} alt={`${settings.company_name} logo`} width="220" height="63" className="h-[46px] w-[161px] object-contain sm:h-14 sm:w-[196px]" />
                     </a>
                     <nav aria-label="Main navigation" className="hidden items-center gap-0.5 rounded-full border border-slate-200/80 bg-slate-50/80 p-1 xl:flex">
