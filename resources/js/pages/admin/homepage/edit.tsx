@@ -17,18 +17,18 @@ type FormData = Content & { hero_image: File | null; about_image: File | null };
 
 export default function HomepageEditor({ content, images }: Props) {
     const form = useForm<FormData>({ ...content, hero_image: null, about_image: null });
-    const input = (key: keyof Content, label: string, hint?: string) => <AdminField key={key} label={label} hint={hint} error={form.errors[key]}><TextInput value={form.data[key]} onChange={(event) => form.setData(key, event.target.value)} /></AdminField>;
-    const area = (key: keyof Content, label: string, hint?: string) => <AdminField key={key} label={label} hint={hint} error={form.errors[key]}><TextArea value={form.data[key]} onChange={(event) => form.setData(key, event.target.value)} /></AdminField>;
+    const input = (key: keyof Content, label: string, hint?: string) => <AdminField key={key} label={label} hint={hint} error={form.errors[key]}><TextInput value={form.data[key]} onChange={(event) => { form.clearErrors(key); form.setData(key, event.target.value); }} /></AdminField>;
+    const area = (key: keyof Content, label: string, hint?: string) => <AdminField key={key} label={label} hint={hint} error={form.errors[key]}><TextArea value={form.data[key]} onChange={(event) => { form.clearErrors(key); form.setData(key, event.target.value); }} /></AdminField>;
     const upload = (key: 'hero_image' | 'about_image', label: string, image: string | null) => <AdminField label={label} hint="JPG, PNG or WebP · maximum 5 MB" error={form.errors[key]}>
         <div className="mt-1.5 grid gap-3 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-3 sm:grid-cols-[140px_1fr] sm:items-center">
             {image ? <img src={image} alt={`${label} preview`} className="h-24 w-full rounded-lg bg-white object-cover sm:w-[140px]" /> : <div className="grid h-24 place-items-center rounded-lg bg-white text-slate-400"><ImagePlus className="size-6" /></div>}
-            <div><input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => form.setData(key, event.target.files?.[0] ?? null)} className="block w-full text-xs text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-white file:px-3 file:py-2 file:text-xs file:font-semibold file:text-slate-700 file:shadow-sm" /><p className="mt-2 text-xs text-slate-500">{form.data[key]?.name ?? 'Choose a new image to replace the current one.'}</p></div>
+            <div><input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => { form.clearErrors(key); form.setData(key, event.target.files?.[0] ?? null); }} className="block w-full text-xs text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-white file:px-3 file:py-2 file:text-xs file:font-semibold file:text-slate-700 file:shadow-sm" /><p className="mt-2 text-xs text-slate-500">{form.data[key]?.name ?? 'Choose a new image to replace the current one.'}</p></div>
         </div>
     </AdminField>;
 
     function submit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        form.put('/admin/homepage', { forceFormData: true, preserveScroll: true });
+        form.transform((data) => ({ ...data, _method: 'put' })).post('/admin/homepage', { forceFormData: true, preserveScroll: true });
     }
 
     return <AdminLayout title="Homepage content">

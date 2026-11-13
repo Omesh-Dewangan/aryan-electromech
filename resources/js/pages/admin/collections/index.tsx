@@ -26,6 +26,10 @@ export default function CollectionAdmin({ resource, items }: Props) {
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<Item | null>(null);
     const form = useForm<FormData>(initial);
+    function updateField<K extends keyof FormData>(key: K, value: FormData[K]) {
+        form.clearErrors(key);
+        form.setData(key, value);
+    }
     const filtered = useMemo(() => items.filter((item) => `${item.name ?? ''} ${item.title ?? ''} ${item.detail ?? ''}`.toLowerCase().includes(search.toLowerCase())), [items, search]);
 
     function openEditor(item?: Item) {
@@ -63,14 +67,14 @@ export default function CollectionAdmin({ resource, items }: Props) {
             <DialogDescription className="text-sm text-slate-500">This information will appear in the matching section on your website.</DialogDescription>
             <form onSubmit={submit} className="mt-2 space-y-4">
                 {resource === 'industries' ? <>
-                    <AdminField label="Industry name" error={form.errors.name}><TextInput value={form.data.name} onChange={(e) => form.setData('name', e.target.value)} placeholder="e.g. Mining & minerals" required /></AdminField>
-                    <AdminField label="Display order" hint="Smaller numbers appear first." error={form.errors.sort_order}><TextInput type="number" min="0" value={form.data.sort_order} onChange={(e) => form.setData('sort_order', Number(e.target.value))} required /></AdminField>
+                    <AdminField label="Industry name" error={form.errors.name}><TextInput value={form.data.name} onChange={(e) => updateField('name', e.target.value)} placeholder="e.g. Mining & minerals" required /></AdminField>
+                    <AdminField label="Display order" hint="Smaller numbers appear first." error={form.errors.sort_order}><TextInput type="number" min="0" value={form.data.sort_order} onChange={(e) => updateField('sort_order', Number(e.target.value))} required /></AdminField>
                 </> : <>
-                    {resource === 'process' && <AdminField label="Step number" hint="Controls the order of the process steps." error={form.errors.step_number}><TextInput type="number" min="1" max="99" value={form.data.step_number} onChange={(e) => form.setData('step_number', Number(e.target.value))} required /></AdminField>}
-                    <AdminField label={resource === 'process' ? 'Step title' : 'Service name'} error={form.errors.title}><TextInput value={form.data.title} onChange={(e) => form.setData('title', e.target.value)} placeholder={resource === 'process' ? 'e.g. Drawing approval' : 'e.g. Panel design'} required /></AdminField>
-                    <AdminField label="Description" error={form.errors.detail}><TextArea value={form.data.detail} onChange={(e) => form.setData('detail', e.target.value)} placeholder="Write a short, helpful description." required /></AdminField>
-                    <AdminField label="Icon" hint="Choose the closest matching icon." error={form.errors.icon_name}><select value={form.data.icon_name} onChange={(e) => form.setData('icon_name', e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm outline-none focus:border-blue-500">{iconChoices.map((icon) => <option key={icon} value={icon}>{icon}</option>)}</select></AdminField>
-                    {resource === 'services' && <AdminField label="Display order" hint="Smaller numbers appear first." error={form.errors.sort_order}><TextInput type="number" min="0" value={form.data.sort_order} onChange={(e) => form.setData('sort_order', Number(e.target.value))} required /></AdminField>}
+                    {resource === 'process' && <AdminField label="Step number" hint="Controls the order of the process steps." error={form.errors.step_number}><TextInput type="number" min="1" max="99" value={form.data.step_number} onChange={(e) => updateField('step_number', Number(e.target.value))} required /></AdminField>}
+                    <AdminField label={resource === 'process' ? 'Step title' : 'Service name'} error={form.errors.title}><TextInput value={form.data.title} onChange={(e) => updateField('title', e.target.value)} placeholder={resource === 'process' ? 'e.g. Drawing approval' : 'e.g. Panel design'} required /></AdminField>
+                    <AdminField label="Description" error={form.errors.detail}><TextArea value={form.data.detail} onChange={(e) => updateField('detail', e.target.value)} placeholder="Write a short, helpful description." required /></AdminField>
+                    <AdminField label="Icon" hint="Choose the closest matching icon." error={form.errors.icon_name}><select value={form.data.icon_name} onChange={(e) => updateField('icon_name', e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm outline-none focus:border-blue-500">{iconChoices.map((icon) => <option key={icon} value={icon}>{icon}</option>)}</select></AdminField>
+                    {resource === 'services' && <AdminField label="Display order" hint="Smaller numbers appear first." error={form.errors.sort_order}><TextInput type="number" min="0" value={form.data.sort_order} onChange={(e) => updateField('sort_order', Number(e.target.value))} required /></AdminField>}
                 </>}
                 <label className="flex items-center gap-2.5 text-sm font-medium text-slate-700"><input type="checkbox" checked={form.data.is_active} onChange={(e) => form.setData('is_active', e.target.checked)} className="size-4 rounded border-slate-300 accent-[#174b9b]" />Show this on the public website</label>
                 <div className="flex flex-col-reverse gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:justify-end"><Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button><Button type="submit" disabled={form.processing} className="bg-[#10264b] hover:bg-[#1a3767]">{form.processing ? 'Saving…' : editing ? 'Save changes' : `Add ${copy.singular}`} <ArrowUpRight className="size-4" /></Button></div>

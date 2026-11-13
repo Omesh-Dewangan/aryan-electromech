@@ -14,6 +14,10 @@ const blank: FormData = { name: '', email: '', password: '', password_confirmati
 export default function AdminUsersPage({ users, currentUserId }: Props) {
     const form = useForm<FormData>(blank);
     usePoll(30_000, { only: ['users'] });
+    function updateField<K extends keyof FormData>(key: K, value: FormData[K]) {
+        form.clearErrors(key);
+        form.setData(key, value);
+    }
 
     function submit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -41,10 +45,10 @@ export default function AdminUsersPage({ users, currentUserId }: Props) {
                     <div><h2 className="font-bold text-slate-950">Create an admin login</h2><p className="mt-1 text-sm leading-5 text-slate-500">Each teammate gets a unique Login ID and password.</p></div>
                 </div>
                 <form onSubmit={submit} className="space-y-4">
-                    <AdminField label="Full name" error={form.errors.name}><TextInput autoComplete="name" value={form.data.name} onChange={(event) => form.setData('name', event.target.value)} placeholder="e.g. Priya Sharma" required /></AdminField>
-                    <AdminField label="Email address" hint="They can sign in with their email or generated Login ID." error={form.errors.email}><TextInput type="email" autoComplete="email" value={form.data.email} onChange={(event) => form.setData('email', event.target.value)} placeholder="name@company.com" required /></AdminField>
-                    <AdminField label="Password" hint="Use at least 12 characters." error={form.errors.password}><TextInput type="password" autoComplete="new-password" minLength={12} value={form.data.password} onChange={(event) => form.setData('password', event.target.value)} required /></AdminField>
-                    <AdminField label="Confirm password" error={form.errors.password_confirmation}><TextInput type="password" autoComplete="new-password" minLength={12} value={form.data.password_confirmation} onChange={(event) => form.setData('password_confirmation', event.target.value)} required /></AdminField>
+                    <AdminField label="Full name" error={form.errors.name}><TextInput autoComplete="name" value={form.data.name} onChange={(event) => updateField('name', event.target.value)} placeholder="e.g. Priya Sharma" required /></AdminField>
+                    <AdminField label="Email address" hint="They can sign in with their email or generated Login ID." error={form.errors.email}><TextInput type="email" autoComplete="email" value={form.data.email} onChange={(event) => updateField('email', event.target.value)} placeholder="name@company.com" required /></AdminField>
+                    <AdminField label="Password" hint="Use at least 12 characters." error={form.errors.password}><TextInput type="password" autoComplete="new-password" minLength={12} value={form.data.password} onChange={(event) => updateField('password', event.target.value)} required /></AdminField>
+                    <AdminField label="Confirm password" error={form.errors.password_confirmation}><TextInput type="password" autoComplete="new-password" minLength={12} value={form.data.password_confirmation} onChange={(event) => updateField('password_confirmation', event.target.value)} required /></AdminField>
                     <div className="flex items-start gap-2 rounded-xl bg-slate-50 p-3 text-xs leading-5 text-slate-600"><KeyRound className="mt-0.5 size-4 shrink-0 text-slate-500" /><p>A unique Login ID is generated automatically. Passwords are encrypted and cannot be viewed later.</p></div>
                     <Button type="submit" disabled={form.processing} className="h-11 w-full bg-[#10264b] hover:bg-[#1a3767]"><UserPlus className="size-4" />{form.processing ? 'Creating account…' : 'Create admin account'}</Button>
                 </form>

@@ -17,6 +17,10 @@ export default function ProductsAdmin({ products, categories }: Props) {
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<Product | null>(null);
     const form = useForm<FormData>(blank);
+    function updateField<K extends keyof FormData>(key: K, value: FormData[K]) {
+        form.clearErrors(key);
+        form.setData(key, value);
+    }
     const filtered = useMemo(() => products.filter((product) => `${product.name} ${product.code} ${product.category}`.toLowerCase().includes(search.toLowerCase())), [products, search]);
 
     function openEditor(product?: Product) {
@@ -30,7 +34,7 @@ export default function ProductsAdmin({ products, categories }: Props) {
     function submit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const options = { forceFormData: true, preserveScroll: true, onSuccess: () => setOpen(false) };
-        if (editing) form.put(`/admin/products/${editing.id}`, options);
+        if (editing) form.transform((data) => ({ ...data, _method: 'put' })).post(`/admin/products/${editing.id}`, options);
         else form.post('/admin/products', options);
     }
 
@@ -53,15 +57,15 @@ export default function ProductsAdmin({ products, categories }: Props) {
                 <DialogDescription className="text-sm text-slate-500">Product information and image shown in your public catalogue.</DialogDescription>
                 <form onSubmit={submit} className="mt-2 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
-                        <AdminField label="Product name" error={form.errors.name}><TextInput value={form.data.name} onChange={(e) => form.setData('name', e.target.value)} placeholder="e.g. PCC Panel" required /></AdminField>
-                        <AdminField label="Product code" error={form.errors.code}><TextInput value={form.data.code} onChange={(e) => form.setData('code', e.target.value)} placeholder="e.g. AE-11" required /></AdminField>
-                        <AdminField label="Short description" error={form.errors.subtitle}><TextInput value={form.data.subtitle} onChange={(e) => form.setData('subtitle', e.target.value)} placeholder="e.g. Power Control Centre" required /></AdminField>
-                        <AdminField label="Category" hint="Choose an existing category or type a new one." error={form.errors.category}><TextInput list="product-categories" value={form.data.category} onChange={(e) => form.setData('category', e.target.value)} placeholder="Select or type a category" required /><datalist id="product-categories">{categories.map((category) => <option key={category} value={category} />)}</datalist></AdminField>
-                        <AdminField label="Display order" hint="Smaller numbers appear first." error={form.errors.sort_order}><TextInput type="number" min="0" value={form.data.sort_order} onChange={(e) => form.setData('sort_order', Number(e.target.value))} required /></AdminField>
-                        <AdminField label="Product photo" hint="JPG, PNG or WebP · maximum 5 MB" error={form.errors.image}><TextInput type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => form.setData('image', e.target.files?.[0] ?? null)} className="file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold" />{editing?.image_url && <img src={editing.image_url} alt="Current product" className="mt-2 h-20 w-28 rounded-lg object-cover" />}</AdminField>
+                        <AdminField label="Product name" error={form.errors.name}><TextInput value={form.data.name} onChange={(e) => updateField('name', e.target.value)} placeholder="e.g. PCC Panel" required /></AdminField>
+                        <AdminField label="Product code" error={form.errors.code}><TextInput value={form.data.code} onChange={(e) => updateField('code', e.target.value)} placeholder="e.g. AE-11" required /></AdminField>
+                        <AdminField label="Short description" error={form.errors.subtitle}><TextInput value={form.data.subtitle} onChange={(e) => updateField('subtitle', e.target.value)} placeholder="e.g. Power Control Centre" required /></AdminField>
+                        <AdminField label="Category" hint="Choose an existing category or type a new one." error={form.errors.category}><TextInput list="product-categories" value={form.data.category} onChange={(e) => updateField('category', e.target.value)} placeholder="Select or type a category" required /><datalist id="product-categories">{categories.map((category) => <option key={category} value={category} />)}</datalist></AdminField>
+                        <AdminField label="Display order" hint="Smaller numbers appear first." error={form.errors.sort_order}><TextInput type="number" min="0" value={form.data.sort_order} onChange={(e) => updateField('sort_order', Number(e.target.value))} required /></AdminField>
+                        <AdminField label="Product photo" hint="JPG, PNG or WebP · maximum 5 MB" error={form.errors.image}><TextInput type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => updateField('image', e.target.files?.[0] ?? null)} className="file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold" />{editing?.image_url && <img src={editing.image_url} alt="Current product" className="mt-2 h-20 w-28 rounded-lg object-cover" />}</AdminField>
                     </div>
                     
-                    <AdminField label="Full description" error={form.errors.description}><TextArea value={form.data.description} onChange={(e) => form.setData('description', e.target.value)} placeholder="Describe what this panel is used for." required /></AdminField>
+                    <AdminField label="Full description" error={form.errors.description}><TextArea value={form.data.description} onChange={(e) => updateField('description', e.target.value)} placeholder="Describe what this panel is used for." required /></AdminField>
                     <label className="flex items-center gap-2.5 text-sm font-medium text-slate-700"><input type="checkbox" checked={form.data.is_active} onChange={(e) => form.setData('is_active', e.target.checked)} className="size-4 rounded border-slate-300 accent-[#174b9b]" />Show this product on the public website</label>
                     <div className="flex flex-col-reverse gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:justify-end"><Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button><Button type="submit" disabled={form.processing} className="bg-[#10264b] hover:bg-[#1a3767]">{form.processing ? 'Saving…' : editing ? 'Save changes' : 'Add to catalogue'} <ArrowUpRight className="size-4" /></Button></div>
                 </form>
