@@ -11,6 +11,7 @@
         <meta property="og:title" content="{{ config('app.name', 'Aryan Electro Mech') }} | Electrical Panels & Automation">
         <meta property="og:description" content="Electrical control panels and automation solutions, built for your plant in Raipur, Chhattisgarh.">
         <meta property="og:image" content="{{ url('/images/arya-elecromech-wordmark.png') }}">
+        <meta property="og:image:type" content="image/png">
         <meta property="og:image:alt" content="Aryan Electromech Engineer logo">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="{{ config('app.name', 'Aryan Electro Mech') }} | Electrical Panels & Automation">
