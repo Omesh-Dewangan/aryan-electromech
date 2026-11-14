@@ -1,6 +1,6 @@
 import { Head, router, useForm, usePoll } from '@inertiajs/react';
 import { useState } from 'react';
-import { Activity, KeyRound, Mail, ShieldCheck, Trash2, UserPlus, Users, Wifi } from 'lucide-react';
+import { Activity, Check, Copy, KeyRound, Mail, ShieldCheck, Trash2, UserPlus, Users, Wifi } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { AdminField, AdminPageHeader, TextInput } from '@/components/admin/field';
@@ -17,6 +17,7 @@ export default function AdminUsersPage({ users, currentUserId }: Props) {
     const form = useForm<FormData>(blank);
     const passwordForm = useForm({ password: '', password_confirmation: '' });
     const [passwordUser, setPasswordUser] = useState<AdminUser | null>(null);
+    const [passwordCopied, setPasswordCopied] = useState(false);
     usePoll(30_000, { only: ['users'] });
     function updateField<K extends keyof FormData>(key: K, value: FormData[K]) {
         form.clearErrors(key);
@@ -41,7 +42,18 @@ export default function AdminUsersPage({ users, currentUserId }: Props) {
     function openPasswordChange(user: AdminUser) {
         passwordForm.reset();
         passwordForm.clearErrors();
+        setPasswordCopied(false);
         setPasswordUser(user);
+    }
+
+    async function copyNewPassword() {
+        if (!passwordForm.data.password) return;
+        try {
+            await navigator.clipboard.writeText(passwordForm.data.password);
+            setPasswordCopied(true);
+        } catch {
+            setPasswordCopied(false);
+        }
     }
 
     function changePassword(event: React.FormEvent<HTMLFormElement>) {
@@ -105,7 +117,7 @@ export default function AdminUsersPage({ users, currentUserId }: Props) {
                 <DialogTitle className="pr-8 text-xl font-bold text-slate-950">Change admin password</DialogTitle>
                 <DialogDescription className="text-sm text-slate-500">Set a new password for {passwordUser?.name} ({passwordUser?.login_id}). The current password cannot be viewed.</DialogDescription>
                 <form onSubmit={changePassword} className="space-y-4">
-                    <AdminField label="New password" hint="Use at least 12 characters." error={passwordForm.errors.password}><TextInput type="password" autoComplete="new-password" minLength={12} value={passwordForm.data.password} onChange={(event) => { passwordForm.clearErrors('password'); passwordForm.setData('password', event.target.value); }} required /></AdminField>
+                    <div className="flex items-end gap-2"><div className="min-w-0 flex-1"><AdminField label="New password" hint="Use at least 12 characters." error={passwordForm.errors.password}><TextInput type="password" autoComplete="new-password" minLength={12} value={passwordForm.data.password} onChange={(event) => { passwordForm.clearErrors('password'); passwordForm.setData('password', event.target.value); setPasswordCopied(false); }} required /></AdminField></div><Button type="button" variant="outline" onClick={copyNewPassword} disabled={!passwordForm.data.password} className="mb-0.5 shrink-0">{passwordCopied ? <Check className="size-4" /> : <Copy className="size-4" />}{passwordCopied ? 'Copied' : 'Copy'}</Button></div>
                     <AdminField label="Confirm new password" error={passwordForm.errors.password_confirmation}><TextInput type="password" autoComplete="new-password" minLength={12} value={passwordForm.data.password_confirmation} onChange={(event) => { passwordForm.clearErrors('password_confirmation'); passwordForm.setData('password_confirmation', event.target.value); }} required /></AdminField>
                     <div className="flex justify-end gap-2 pt-2"><Button type="button" variant="outline" onClick={() => setPasswordUser(null)} disabled={passwordForm.processing}>Cancel</Button><Button type="submit" disabled={passwordForm.processing} className="bg-[#10264b] hover:bg-[#1a3767]">{passwordForm.processing ? 'Saving…' : 'Save new password'}</Button></div>
                 </form>
