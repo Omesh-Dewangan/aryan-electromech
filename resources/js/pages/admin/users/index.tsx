@@ -8,12 +8,12 @@ import { AdminLayout } from '@/layouts/admin-layout';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 
 type AdminUser = { id: number; name: string; email: string; login_id: string; login_count: number; today_login_count: number; is_online: boolean; last_login_at: string | null; created_at: string };
-type Props = { users: AdminUser[]; currentUserId: number };
+type Props = { users: AdminUser[]; currentUserId: number; canManagePasswords: boolean };
 type FormData = { name: string; email: string; password: string; password_confirmation: string };
 
 const blank: FormData = { name: '', email: '', password: '', password_confirmation: '' };
 
-export default function AdminUsersPage({ users, currentUserId }: Props) {
+export default function AdminUsersPage({ users, currentUserId, canManagePasswords }: Props) {
     const form = useForm<FormData>(blank);
     const passwordForm = useForm({ password: '', password_confirmation: '' });
     const [passwordUser, setPasswordUser] = useState<AdminUser | null>(null);
@@ -102,7 +102,7 @@ export default function AdminUsersPage({ users, currentUserId }: Props) {
                                 <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-500"><Activity className="size-3.5" />Today: {user.today_login_count}</span>
                             </div>
                             <div className="flex shrink-0 items-center gap-1">
-                                <Button type="button" variant="outline" size="sm" onClick={() => openPasswordChange(user)}><KeyRound className="size-3.5" /><span className="hidden sm:inline">Change password</span><span className="sm:hidden">Password</span></Button>
+                                {canManagePasswords && <Button type="button" variant="outline" size="sm" onClick={() => openPasswordChange(user)}><KeyRound className="size-3.5" /><span className="hidden sm:inline">Change password</span><span className="sm:hidden">Password</span></Button>}
                                 {!isCurrentUser && <Button type="button" variant="ghost" size="icon" aria-label={`Remove ${user.name}`} title="Remove admin access" onClick={() => remove(user)} className="text-slate-400 hover:bg-rose-50 hover:text-rose-600"><Trash2 className="size-4" /></Button>}
                             </div>
                         </article>;
@@ -112,7 +112,7 @@ export default function AdminUsersPage({ users, currentUserId }: Props) {
             </Card>
         </div>
 
-        <Dialog open={passwordUser !== null} onOpenChange={(open) => { if (!open && !passwordForm.processing) setPasswordUser(null); }}>
+        <Dialog open={canManagePasswords && passwordUser !== null} onOpenChange={(open) => { if (!open && !passwordForm.processing) setPasswordUser(null); }}>
             <DialogContent>
                 <DialogTitle className="pr-8 text-xl font-bold text-slate-950">Change admin password</DialogTitle>
                 <DialogDescription className="text-sm text-slate-500">Set a new password for {passwordUser?.name} ({passwordUser?.login_id}). The current password cannot be viewed.</DialogDescription>

@@ -48,6 +48,10 @@ class UserController extends Controller
         return Inertia::render('admin/users/index', [
             'users' => $users,
             'currentUserId' => (int) $request->user()->getKey(),
+            'canManagePasswords' => strcasecmp(
+                (string) $request->user()->email,
+                (string) config('admin.password_manager_email'),
+            ) === 0,
         ]);
     }
 
@@ -74,6 +78,11 @@ class UserController extends Controller
 
     public function updatePassword(Request $request, User $user): RedirectResponse
     {
+        abort_unless(strcasecmp(
+            (string) $request->user()->email,
+            (string) config('admin.password_manager_email'),
+        ) === 0, 403);
+
         if (! $user->is_admin) {
             abort(404);
         }

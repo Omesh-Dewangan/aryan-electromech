@@ -46,6 +46,10 @@ Open **http://127.0.0.1:8000/admin/login** and sign in with the account you crea
 - **Enquiries** lets you call the client and track each request as New, Contacted or Closed.
 - **Contact & branding** updates company/contact information, WhatsApp, map, and the header logo.
 
+### Admin password changes
+
+Only the admin account with email `omeshdewangan@gmail.com` can change passwords for admin Login IDs from **Admin users**. The server enforces this permission as well as hiding the action from other accounts. Set `ADMIN_PASSWORD_MANAGER_EMAIL` in the server `.env` if the authorized account email changes, then run `php artisan config:cache` (or `php artisan config:clear` during development). Existing passwords cannot be viewed because they are stored as one-way hashes; the authorized admin can set a new password and copy it before saving.
+
 ## Create the first admin on a live server
 
 For production, set the admin details in the live server's `.env` only. Never put the real password in source code or commit it to Git:
