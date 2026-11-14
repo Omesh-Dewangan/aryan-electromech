@@ -1,9 +1,11 @@
 import { Head, router, useForm, usePoll } from '@inertiajs/react';
+import { useState } from 'react';
 import { Activity, KeyRound, Mail, ShieldCheck, Trash2, UserPlus, Users, Wifi } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { AdminField, AdminPageHeader, TextInput } from '@/components/admin/field';
 import { AdminLayout } from '@/layouts/admin-layout';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 
 type AdminUser = { id: number; name: string; email: string; login_id: string; login_count: number; today_login_count: number; is_online: boolean; last_login_at: string | null; created_at: string };
 type Props = { users: AdminUser[]; currentUserId: number };
@@ -13,6 +15,8 @@ const blank: FormData = { name: '', email: '', password: '', password_confirmati
 
 export default function AdminUsersPage({ users, currentUserId }: Props) {
     const form = useForm<FormData>(blank);
+    const passwordForm = useForm({ password: '', password_confirmation: '' });
+    const [passwordUser, setPasswordUser] = useState<AdminUser | null>(null);
     usePoll(30_000, { only: ['users'] });
     function updateField<K extends keyof FormData>(key: K, value: FormData[K]) {
         form.clearErrors(key);
@@ -32,6 +36,25 @@ export default function AdminUsersPage({ users, currentUserId }: Props) {
         if (window.confirm(`Remove admin access for ${user.name}? They will no longer be able to sign in.`)) {
             router.delete(`/admin/users/${user.id}`, { preserveScroll: true });
         }
+    }
+
+    function openPasswordChange(user: AdminUser) {
+        passwordForm.reset();
+        passwordForm.clearErrors();
+        setPasswordUser(user);
+    }
+
+    function changePassword(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        if (!passwordUser) return;
+
+        passwordForm.put(`/admin/users/${passwordUser.id}/password`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                passwordForm.reset();
+                setPasswordUser(null);
+            },
+        });
     }
 
     return <AdminLayout title="Admin users">
@@ -66,12 +89,27 @@ export default function AdminUsersPage({ users, currentUserId }: Props) {
                                 <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold ${user.is_online ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}><Wifi className="size-3.5" />{user.is_online ? 'Online' : 'Offline'}</span>
                                 <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-500"><Activity className="size-3.5" />Today: {user.today_login_count}</span>
                             </div>
-                            {!isCurrentUser && <Button type="button" variant="ghost" size="icon" aria-label={`Remove ${user.name}`} title="Remove admin access" onClick={() => remove(user)} className="shrink-0 text-slate-400 hover:bg-rose-50 hover:text-rose-600"><Trash2 className="size-4" /></Button>}
+                            <div className="flex shrink-0 items-center gap-1">
+                                <Button type="button" variant="outline" size="sm" onClick={() => openPasswordChange(user)}><KeyRound className="size-3.5" /><span className="hidden sm:inline">Change password</span><span className="sm:hidden">Password</span></Button>
+                                {!isCurrentUser && <Button type="button" variant="ghost" size="icon" aria-label={`Remove ${user.name}`} title="Remove admin access" onClick={() => remove(user)} className="text-slate-400 hover:bg-rose-50 hover:text-rose-600"><Trash2 className="size-4" /></Button>}
+                            </div>
                         </article>;
                     })}
                 </div>
                 <div className="flex items-start gap-2 border-t border-slate-100 bg-slate-50/70 px-5 py-4 text-xs leading-5 text-slate-500 sm:px-6"><ShieldCheck className="mt-0.5 size-4 shrink-0 text-emerald-600" /><p>Your account cannot be removed here, and the last admin account is always protected.</p></div>
             </Card>
         </div>
+
+        <Dialog open={passwordUser !== null} onOpenChange={(open) => { if (!open && !passwordForm.processing) setPasswordUser(null); }}>
+            <DialogContent>
+                <DialogTitle className="pr-8 text-xl font-bold text-slate-950">Change admin password</DialogTitle>
+                <DialogDescription className="text-sm text-slate-500">Set a new password for {passwordUser?.name} ({passwordUser?.login_id}). The current password cannot be viewed.</DialogDescription>
+                <form onSubmit={changePassword} className="space-y-4">
+                    <AdminField label="New password" hint="Use at least 12 characters." error={passwordForm.errors.password}><TextInput type="password" autoComplete="new-password" minLength={12} value={passwordForm.data.password} onChange={(event) => { passwordForm.clearErrors('password'); passwordForm.setData('password', event.target.value); }} required /></AdminField>
+                    <AdminField label="Confirm new password" error={passwordForm.errors.password_confirmation}><TextInput type="password" autoComplete="new-password" minLength={12} value={passwordForm.data.password_confirmation} onChange={(event) => { passwordForm.clearErrors('password_confirmation'); passwordForm.setData('password_confirmation', event.target.value); }} required /></AdminField>
+                    <div className="flex justify-end gap-2 pt-2"><Button type="button" variant="outline" onClick={() => setPasswordUser(null)} disabled={passwordForm.processing}>Cancel</Button><Button type="submit" disabled={passwordForm.processing} className="bg-[#10264b] hover:bg-[#1a3767]">{passwordForm.processing ? 'Saving…' : 'Save new password'}</Button></div>
+                </form>
+            </DialogContent>
+        </Dialog>
     </AdminLayout>;
 }

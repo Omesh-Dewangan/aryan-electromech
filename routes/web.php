@@ -35,6 +35,7 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
         Route::patch('/enquiries/{enquiry}', [EnquiryController::class, 'update'])->name('enquiries.update');
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
+        Route::put('/users/{user}/password', [UserController::class, 'updatePassword'])->whereNumber('user')->name('users.password.update');
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->whereNumber('user')->name('users.destroy');
 
         Route::get('/{resource}', [CollectionController::class, 'index'])

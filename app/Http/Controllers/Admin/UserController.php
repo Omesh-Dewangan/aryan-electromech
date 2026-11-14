@@ -72,6 +72,24 @@ class UserController extends Controller
         return back()->with('success', 'Admin user created. Their generated Login ID is now available in the admin user list.');
     }
 
+    public function updatePassword(Request $request, User $user): RedirectResponse
+    {
+        if (! $user->is_admin) {
+            abort(404);
+        }
+
+        $data = $request->validate([
+            'password' => ['required', 'string', 'min:12', 'confirmed'],
+        ], [
+            'password.confirmed' => 'The passwords do not match.',
+            'password.min' => 'Use at least 12 characters for the password.',
+        ]);
+
+        $user->update(['password' => Hash::make($data['password'])]);
+
+        return back()->with('success', "Password changed for Login ID {$user->login_id}.");
+    }
+
     public function destroy(Request $request, User $user): RedirectResponse
     {
         if (! $user->is_admin) {
